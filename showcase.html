@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>微信表情包.skill · 展示动画</title>
+  <style>
+    /*
+      Path suggestion: showcase.html
+      Open from repo root with: python -m http.server 8765
+      Then visit: http://localhost:8765/showcase.html
+
+      Design intent:
+      - Huashu-style single-file HTML motion piece.
+      - 1920×1080 stage, browser-previewable, screen-recordable.
+      - Uses real stickers from stickers/ when placed in the repository root.
+      - Falls back to GitHub raw sticker URLs when opened as a downloaded file.
+    */
+
+    :root {
+      --duration: 11.2s;
+      --ink: #171717;
+      --muted: #6f6a60;
+      --paper: #fbf7ed;
+      --warm: #f4dfc1;
+      --accent: #07c160;
+      --accent-dark: #07974d;
+      --pink: #ff6b9a;
+      --blue: #6aa4ff;
+      --yellow: #ffd166;
+      --shadow: 0 28px 70px rgba(33, 27, 18, .18);
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: #111; overflow: hidden; }
+    body { display: grid; place-items: center; color: var(--ink); }
+
+    .viewport {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #0c0c0c;
+    }
+
+    .stage {
+      position: relative;
+      width: min(100vw, calc(100vh * 16 / 9));
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(7, 193, 96, .20), transparent 22%),
+        radial-gradient(circle at 86% 14%, rgba(255, 209, 102, .28), transparent 24%),
+        radial-gradient(circle at 74% 82%, rgba(255, 107, 154, .16), transparent 24%),
+        linear-gradient(135deg, #fffaf0 0%, #f8f1e2 56%, #f3ead9 100%);
+      border-radius: 24px;
+      box-shadow: 0 26px 120px rgba(0,0,0,.42);
+      isolation: isolate;
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(23,23,23,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23,23,23,.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(circle at center, #000 30%, transparent 78%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .safe-frame {
+      position: absolute;
+      inset: 64px;
+      border: 1px solid rgba(23,23,23,.08);
+      border-radius: 34px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .brand {
+      position: absolute;
+      z-index: 30;
+      left: 92px;
+      top: 74px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: rgba(23,23,23,.92);
+      animation: brandPulse var(--duration) var(--ease) infinite;
+    }
+
+    .logo-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: #111;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 24px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.22);
+    }
+
+    .brand span:last-child { font-size: 25px; }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .scene-1 { animation: scene1 var(--duration) linear infinite; }
+    .scene-2 { animation: scene2 var(--duration) linear infinite; }
+    .scene-3 { animation: scene3 var(--duration) linear infinite; }
+    .scene-4 { animation: scene4 var(--duration) linear infinite; }
+    .scene-5 { animation: scene5 var(--duration) linear infinite; }
+
+    @keyframes scene1 { 0%, 19% { opacity: 1; } 22%, 100% { opacity: 0; } }
+    @keyframes scene2 { 0%, 17% { opacity: 0; } 21%, 42% { opacity: 1; } 45%, 100% { opacity: 0; } }
+    @keyframes scene3 { 0%, 40% { opacity: 0; } 44%, 61% { opacity: 1; } 65%, 100% { opacity: 0; } }
+    @keyframes scene4 { 0%, 59% { opacity: 0; } 64%, 79% { opacity: 1; } 84%, 100% { opacity: 0; } }
+    @keyframes scene5 { 0%, 77% { opacity: 0; } 83%, 96% { opacity: 1; } 100% { opacity: 0; } }
+
+    .hero-copy {
+      position: absolute;
+      left: 120px;
+      top: 198px;
+      width: 740px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.68);
+      box-shadow: 0 12px 34px rgba(33,27,18,.08);
+      color: var(--accent-dark);
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 7px rgba(7,193,96,.15); }
+
+    h1, h2, p { margin: 0; }
+
+    .hero-title {
+      margin-top: 28px;
+      font-size: 96px;
+      line-height: .95;
+      letter-spacing: -.08em;
+      font-weight: 920;
+      max-width: 760px;
+    }
+
+    .hero-title .green { color: var(--accent-dark); }
+
+    .hero-subtitle {
+      margin-top: 30px;
+      width: 620px;
+      color: var(--muted);
+      font-size: 30px;
+      line-height: 1.45;
+      letter-spacing: -.03em;
+      font-weight: 620;
+    }
+
+    .chat-cluster {
+      position: absolute;
+      right: 116px;
+      top: 174px;
+      width: 660px;
+      height: 658px;
+      border-radius: 46px;
+      background: rgba(255,255,255,.64);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.72);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+    }
+
+    .chat-cluster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7,193,96,.12), transparent 34%);
+      pointer-events: none;
+    }
+
+    .bubble {
+      position: absolute;
+      padding: 24px 28px;
+      border-radius: 28px;
+      font-size: 30px;
+      line-height: 1.35;
+      font-weight: 720;
+      letter-spacing: -.03em;
+      box-shadow: 0 15px 34px rgba(33,27,18,.10);
+    }
+
+    .bubble.user { right: 48px; top: 74px; width: 420px; background: var(--accent); color: #fff; border-bottom-right-radius: 9px; }
+    .bubble.agent { left: 48px; top: 214px; width: 430px; background: #fff; color: var(--ink); border-bottom-left-radius: 9px; }
+    .bubble.thought { left: 72px; bottom: 74px; width: 520px; background: #171717; color: #fff; border-radius: 34px; }
+
+    .sticker-card {
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 38px;
+      background: #fff;
+      padding: 12px;
+      box-shadow: 0 20px 50px rgba(33,27,18,.18);
+      overflow: hidden;
+      border: 1px solid rgba(23,23,23,.08);
+    }
+
+    .sticker-card video,
+    .sticker-card img,
+    .sticker-focus video,
+    .sticker-focus img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 27px;
+      background: #f8f2e5;
+    }
+
+    .float-a { right: 88px; top: 382px; transform: rotate(6deg); animation: stickerPopA var(--duration) var(--ease) infinite; }
+    .float-b { right: 328px; bottom: 82px; transform: rotate(-8deg); animation: stickerPopB var(--duration) var(--ease) infinite; }
+    .float-c { right: 64px; bottom: 68px; transform: rotate(11deg); animation: stickerPopC var(--duration) var(--ease) infinite; }
+
+    .semantic-panel {
+      position: absolute;
+      left: 114px;
+      top: 210px;
+      width: 665px;
+      min-height: 580px;
+      border-radius: 44px;
+      padding: 40px;
+      background: #171717;
+      color: #fff;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .semantic-panel::after {
+      content: "";
+      position: absolute;
+      right: -160px;
+      bottom: -180px;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: rgba(7,193,96,.22);
+      filter: blur(4px);
+    }
+
+    .panel-title { font-size: 46px; line-height: 1.05; letter-spacing: -.055em; font-weight: 900; position: relative; z-index: 2; }
+    .code-lines { margin-top: 30px; display: grid; gap: 14px; position: relative; z-index: 2; }
+    .code-line { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px 18px; border-radius: 18px; background: rgba(255,255,255,.08); font-size: 21px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .code-line strong { color: var(--yellow); font-weight: 800; }
+    .chip-row { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 12px; position: relative; z-index: 2; }
+    .chip { padding: 11px 15px; border-radius: 999px; background: rgba(7,193,96,.15); border: 1px solid rgba(7,193,96,.35); color: #d9ffe9; font-size: 20px; font-weight: 760; }
+
+    .phone {
+      position: absolute;
+      right: 132px;
+      top: 154px;
+      width: 472px;
+      height: 790px;
+      border-radius: 64px;
+      padding: 18px;
+      background: #151515;
+      box-shadow: 0 28px 80px rgba(0,0,0,.24);
+    }
+
+    .phone-screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 48px;
+      background: linear-gradient(180deg, #eff7ee, #dcefe0);
+      overflow: hidden;
+      padding: 86px 28px 30px;
+    }
+
+    .notch {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      width: 150px;
+      height: 34px;
+      transform: translateX(-50%);
+      background: #0b0b0b;
+      border-radius: 999px;
+    }
+
+    .wechat-bar {
+      position: absolute;
+      top: 58px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-weight: 800;
+      font-size: 19px;
+      color: rgba(0,0,0,.66);
+    }
+
+    .msg { display: inline-block; max-width: 342px; padding: 17px 20px; border-radius: 21px; font-size: 23px; line-height: 1.38; font-weight: 720; margin-bottom: 20px; box-shadow: 0 8px 18px rgba(0,0,0,.07); }
+    .msg.right { float: right; clear: both; background: var(--accent); color: #fff; border-top-right-radius: 8px; }
+    .msg.left { float: left; clear: both; background: #fff; color: var(--ink); border-top-left-radius: 8px; }
+    .phone-sticker { clear: both; float: left; width: 240px; height: 240px; border-radius: 32px; padding: 12px; background: #fff; box-shadow: 0 16px 36px rgba(0,0,0,.12); }
+    .phone-sticker video { width: 100%; height: 100%; object-fit: contain; border-radius: 24px; background: #faf6ee; }
+
+    .match-beam {
+      position: absolute;
+      left: 746px;
+      top: 482px;
+      width: 460px;
+      height: 16px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(7,193,96,0), rgba(7,193,96,.95), rgba(7,193,96,0));
+      filter: drop-shadow(0 0 16px rgba(7,193,96,.45));
+      animation: beamSweep var(--duration) var(--ease) infinite;
+      transform-origin: left center;
+    }
+
+    .split-title {
+      position: absolute;
+      left: 50%;
+      top: 150px;
+      transform: translateX(-50%);
+      width: 1260px;
+      text-align: center;
+      font-size: 72px;
+      line-height: .98;
+      letter-spacing: -.07em;
+      font-weight: 940;
+    }
+
+    .split-title mark { background: transparent; color: var(--accent-dark); }
+
+    .compare-wrap {
+      position: absolute;
+      left: 112px;
+      right: 112px;
+      top: 332px;
+      height: 490px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 38px;
+    }
+
+    .compare-card {
+      position: relative;
+      border-radius: 44px;
+      background: rgba(255,255,255,.68);
+      border: 1px solid rgba(255,255,255,.76);
+      box-shadow: var(--shadow);
+      padding: 38px;
+      overflow: hidden;
+    }
+
+    .compare-card.bad { opacity: .52; filter: grayscale(.2); }
+    .compare-card.good { background: #171717; color: #fff; }
+    .compare-card h3 { font-size: 43px; letter-spacing: -.055em; margin: 0 0 22px; }
+    .random-stack { position: absolute; right: 42px; bottom: 42px; width: 210px; height: 210px; }
+    .random-stack .mini { position: absolute; width: 116px; height: 116px; border-radius: 26px; background: #fff; box-shadow: 0 12px 28px rgba(0,0,0,.16); display: grid; place-items: center; font-size: 48px; }
+    .mini:nth-child(1){ left:0; top:0; transform: rotate(-12deg); }
+    .mini:nth-child(2){ right:0; top:42px; transform: rotate(9deg); }
+    .mini:nth-child(3){ left:56px; bottom:0; transform: rotate(4deg); }
+
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; width: 470px; }
+    .meta { padding: 20px; border-radius: 24px; background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.14); }
+    .meta b { display: block; font-size: 18px; color: #a9f4c8; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+    .meta span { font-size: 26px; font-weight: 840; letter-spacing: -.035em; }
+
+    .sticker-focus {
+      position: absolute;
+      right: 42px;
+      bottom: 40px;
+      width: 238px;
+      height: 238px;
+      padding: 14px;
+      border-radius: 42px;
+      background: #fff;
+      box-shadow: 0 24px 54px rgba(0,0,0,.2);
+    }
+
+    .pipeline-title {
+      position: absolute;
+      left: 120px;
+      top: 152px;
+      width: 820px;
+      font-size: 72px;
+      line-height: 1.02;
+      letter-spacing: -.07em;
+      font-weight: 940;
+    }
+
+    .pipeline-title span { color: var(--accent-dark); }
+
+    .pipeline {
+      position: absolute;
+      left: 120px;
+      right: 120px;
+      top: 378px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+
+    .pipe-card {
+      position: relative;
+      min-height: 336px;
+      border-radius: 42px;
+      padding: 34px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(255,255,255,.78);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .pipe-card::after {
+      content: "";
+      position: absolute;
+      right: -60px;
+      bottom: -60px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(7,193,96,.12);
+    }
+
+    .pipe-num { font-size: 21px; font-weight: 900; color: var(--accent-dark); letter-spacing: .12em; }
+    .pipe-card h3 { margin: 22px 0 16px; font-size: 39px; letter-spacing: -.055em; line-height: 1.02; }
+    .pipe-card p { color: var(--muted); font-size: 23px; line-height: 1.42; font-weight: 650; letter-spacing: -.02em; }
+    .pipe-arrow { position: absolute; right: -31px; top: 50%; transform: translateY(-50%); z-index: 5; width: 62px; height: 62px; border-radius: 50%; background: #171717; color: #fff; display: grid; place-items: center; font-size: 31px; box-shadow: 0 16px 32px rgba(0,0,0,.22); }
+
+    .install-card {
+      position: absolute;
+      left: 140px;
+      top: 198px;
+      width: 780px;
+      padding: 48px;
+      border-radius: 50px;
+      background: #171717;
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .install-card h2 { font-size: 76px; line-height: .95; letter-spacing: -.075em; font-weight: 940; margin-bottom: 30px; }
+    .install-card p { font-size: 27px; line-height: 1.44; color: rgba(255,255,255,.72); font-weight: 640; letter-spacing: -.025em; width: 650px; }
+    .terminal { margin-top: 36px; padding: 24px 26px; border-radius: 24px; background: #050505; border: 1px solid rgba(255,255,255,.12); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 25px; color: #d9ffe9; box-shadow: inset 0 0 0 1px rgba(7,193,96,.18); }
+    .terminal .prompt { color: var(--accent); }
+
+    .final-stickers {
+      position: absolute;
+      right: 130px;
+      top: 182px;
+      width: 590px;
+      height: 690px;
+    }
+
+    .final-stickers .sticker-card { width: 230px; height: 230px; }
+    .final-stickers .one { left: 0; top: 22px; transform: rotate(-9deg); }
+    .final-stickers .two { right: 0; top: 132px; transform: rotate(10deg); }
+    .final-stickers .three { left: 130px; bottom: 82px; transform: rotate(-3deg); }
+
+
+    .progress {
+      position: absolute;
+      left: 92px;
+      right: 92px;
+      bottom: 44px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(23,23,23,.10);
+      z-index: 40;
+      overflow: hidden;
+    }
+    .progress > i { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--pink), var(--yellow)); border-radius: 999px; }
+
+    .controls {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-size: 13px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .control-btn,
+    .audit-badge {
+      height: 38px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(0,0,0,.48);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.18);
+    }
+
+    .control-btn { cursor: pointer; }
+    .audit-badge.pass { color: #bbffd5; }
+    .audit-badge.warn { color: #ffd6d6; }
+
+    .fallback {
+      position: absolute;
+      inset: 12px;
+      border-radius: 25px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #fff8e7, #def7e9);
+      color: var(--accent-dark);
+      font-size: 34px;
+      font-weight: 900;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .video-failed .fallback { opacity: 1; }
+    .video-failed video { opacity: 0; }
+
+    @keyframes brandPulse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+    @keyframes stickerPopA { 0%, 4% { transform: translateY(40px) rotate(14deg); opacity: 0; } 9%, 100% { transform: translateY(0) rotate(6deg); opacity: 1; } }
+    @keyframes stickerPopB { 0%, 8% { transform: translateY(36px) rotate(-15deg); opacity: 0; } 14%, 100% { transform: translateY(0) rotate(-8deg); opacity: 1; } }
+    @keyframes stickerPopC { 0%, 12% { transform: translateY(30px) rotate(18deg); opacity: 0; } 18%, 100% { transform: translateY(0) rotate(11deg); opacity: 1; } }
+    @keyframes beamSweep { 0%, 21% { transform: scaleX(.05); opacity: 0; } 26%, 34% { transform: scaleX(1); opacity: 1; } 41%, 100% { transform: scaleX(.05); opacity: 0; } }
+
+    body.paused .scene,
+    body.paused .brand,
+    body.paused .sticker-card,
+    body.paused .match-beam { animation-play-state: paused !important; }
+
+    @media (max-width: 900px) {
+      .stage { border-radius: 0; }
+      .controls { right: 10px; bottom: 10px; transform: scale(.86); transform-origin: right bottom; }
+    }
+  </style>
+</head>
+<body>
+  <div class="viewport">
+    <main class="stage" id="stage" aria-label="微信表情包 skill 展示动画">
+      <div class="safe-frame"></div>
+
+      <div class="brand">
+        <span class="logo-mark">表</span>
+        <span>wechat-meme-skill</span>
+      </div>
+
+      <section class="scene scene-1" aria-hidden="true">
+        <div class="hero-copy" data-audit="scene1-copy">
+          <div class="eyebrow"><i class="dot"></i> LOCAL STICKER SKILL</div>
+          <h1 class="hero-title">别只会<br><span class="green">回复文字</span></h1>
+          <p class="hero-subtitle">让智能体在微信里用表情包表达轻松、感性、可爱、安慰、接梗和玩梗。</p>
+        </div>
+
+        <div class="chat-cluster" data-audit="scene1-chat">
+          <div class="bubble user">她说今天好累，想早点睡</div>
+          <div class="bubble agent">可以用这个：<br>乖喔，摸摸头安慰</div>
+          <div class="bubble thought">不是随机发表情。<br>是语义匹配。</div>
+          <div class="sticker-card float-a"><video data-sticker="pig_hahaha_01.mp4" muted autoplay loop playsinline></video><div class="fallback">哈哈哈</div></div>
+          <div class="sticker-card float-b"><video data-sticker="bear_pet_good_boy_01.mp4" muted autoplay loop playsinline></video><div class="fallback">乖喔</div></div>
+          <div class="sticker-card float-c"><video data-sticker="duck_crying_guitar_01.mp4" muted autoplay loop playsinline></video><div class="fallback">破防</div></div>
+        </div>
+      </section>
+
+      <section class="scene scene-2" aria-hidden="true">
+        <div class="semantic-panel" data-audit="scene2-index">
+          <h2 class="panel-title">先读 index.yaml<br>再决定怎么表达</h2>
+          <div class="code-lines">
+            <div class="code-line"><span>emotion</span><strong>安慰 / 温柔</strong></div>
+            <div class="code-line"><span>intent</span><strong>安抚对方</strong></div>
+            <div class="code-line"><span>tone</span><strong>软萌 / 亲近</strong></div>
+            <div class="code-line"><span>intensity</span><strong>2 · 轻度</strong></div>
+          </div>
+          <div class="chip-row">
+            <span class="chip">抱抱</span><span class="chip">摸摸头</span><span class="chip">别难过</span><span class="chip">轻轻安慰</span>
+          </div>
+        </div>
+
+        <div class="match-beam"></div>
+
+        <div class="phone" data-audit="scene2-phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="wechat-bar">Agent 交流群</div>
+            <div class="msg right">她说今天好累，想早点睡</div>
+            <div class="msg left">可以用这个：</div>
+            <div class="phone-sticker"><video data-sticker="bear_pet_good_boy_01.mp4" muted autoplay loop playsinline></video></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene scene-3" aria-hidden="true">
+        <h2 class="split-title">从“随机丢图”变成 <mark>可判断语境的情绪表达库</mark></h2>
+        <div class="compare-wrap">
+          <article class="compare-card bad" data-audit="scene3-random">
+            <h3>随机文件夹</h3>
+            <p class="hero-subtitle" style="width:430px;font-size:27px;margin-top:14px;">只看文件名，容易误发、重复发、在严肃场景里显得不合时宜。</p>
+            <div class="random-stack">
+              <div class="mini">😅</div><div class="mini">🥲</div><div class="mini">😎</div>
+            </div>
+          </article>
+          <article class="compare-card good" data-audit="scene3-semantic">
+            <h3>语义索引</h3>
+            <div class="meta-grid">
+              <div class="meta"><b>meaning</b><span>哈哈哈，笑了</span></div>
+              <div class="meta"><b>scene fit</b><span>轻松接梗</span></div>
+              <div class="meta"><b>avoid</b><span>认真求助</span></div>
+              <div class="meta"><b>file</b><span>mp4 / jpg</span></div>
+            </div>
+            <div class="sticker-focus"><video data-sticker="pig_hahaha_01.mp4" muted autoplay loop playsinline></video><div class="fallback">哈哈哈</div></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="scene scene-4" aria-hidden="true">
+        <h2 class="pipeline-title">新增表情也有<br><span>维护流程</span></h2>
+        <div class="pipeline" data-audit="scene4-pipeline">
+          <article class="pipe-card">
+            <div class="pipe-num">01</div><h3>看懂动图</h3><p>抽关键帧，理解动作、文字、表情变化。</p><span class="pipe-arrow">→</span>
+          </article>
+          <article class="pipe-card">
+            <div class="pipe-num">02</div><h3>GIF 转 MP4</h3><p>最终只保存可发送的图片或 1–2 秒 MP4。</p><span class="pipe-arrow">→</span>
+          </article>
+          <article class="pipe-card">
+            <div class="pipe-num">03</div><h3>写入 metadata</h3><p>补齐 emotion、intent、tone、tags、avoid_when。</p><span class="pipe-arrow">→</span>
+          </article>
+          <article class="pipe-card">
+            <div class="pipe-num">04</div><h3>校验索引</h3><p>检查 YAML、文件路径、ID 唯一性和必填字段。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="scene scene-5" aria-hidden="true">
+        <div class="install-card" data-audit="scene5-install">
+          <h2>文字说清楚<br>表情像个人</h2>
+          <p>适合接入 Hermes / Claude Code / Codex 一类智能体，让聊天回复多一个自然的情绪通道。</p>
+          <div class="terminal"><span class="prompt">$</span> npx skills add abxxvrv/wechat-meme-skill</div>
+        </div>
+        <div class="final-stickers" data-audit="scene5-stickers">
+          <div class="sticker-card one"><video data-sticker="duck_teary_pleased_01.mp4" muted autoplay loop playsinline></video><div class="fallback">泪目</div></div>
+          <div class="sticker-card two"><video data-sticker="yellow_duck_shy_cover_face_01.mp4" muted autoplay loop playsinline></video><div class="fallback">害羞</div></div>
+          <div class="sticker-card three"><video data-sticker="pepe_smoking_smug_01.mp4" muted autoplay loop playsinline></video><div class="fallback">看戏</div></div>
+        </div>
+      </section>
+
+      <div class="progress"><i id="progressBar"></i></div>
+    </main>
+  </div>
+
+  <div class="controls">
+    <button class="control-btn" id="playBtn" type="button">⏸ 暂停</button>
+    <button class="control-btn" id="restartBtn" type="button">↺ 重播</button>
+    <span class="audit-badge pass" id="auditBadge">layout audit: PASS</span>
+  </div>
+
+  <script>
+    const DURATION = 11.2;
+    const progressBar = document.getElementById('progressBar');
+    const playBtn = document.getElementById('playBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const auditBadge = document.getElementById('auditBadge');
+    let started = performance.now();
+    let pausedAt = 0;
+    let paused = false;
+
+    // When this file lives in the repository root as showcase.html, use local repo assets.
+    // When opened as a downloaded standalone file, fall back to GitHub raw URLs.
+    const localPrefix = 'stickers/';
+    const remotePrefix = 'https://raw.githubusercontent.com/abxxvrv/wechat-meme-skill/main/stickers/';
+    const useRemote = location.protocol === 'file:' && !location.pathname.includes('/demos/');
+    const prefix = useRemote ? remotePrefix : localPrefix;
+
+    document.querySelectorAll('video[data-sticker]').forEach(video => {
+      video.src = prefix + video.dataset.sticker;
+      video.addEventListener('error', () => video.parentElement.classList.add('video-failed'));
+      video.addEventListener('loadeddata', () => video.parentElement.classList.remove('video-failed'));
+      video.play().catch(() => {});
+    });
+
+    function tick(now) {
+      if (!paused) {
+        const t = ((now - started) / 1000) % DURATION;
+        progressBar.style.width = `${(t / DURATION) * 100}%`;
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    playBtn.addEventListener('click', () => {
+      paused = !paused;
+      document.body.classList.toggle('paused', paused);
+      document.querySelectorAll('video').forEach(v => paused ? v.pause() : v.play().catch(() => {}));
+      if (paused) {
+        pausedAt = performance.now();
+        playBtn.textContent = '▶ 播放';
+      } else {
+        const pauseSpan = performance.now() - pausedAt;
+        started += pauseSpan;
+        playBtn.textContent = '⏸ 暂停';
+      }
+    });
+
+    restartBtn.addEventListener('click', () => {
+      started = performance.now();
+      progressBar.style.width = '0%';
+      // Restart CSS animations without reloading the page.
+      const animated = document.querySelectorAll('.scene, .brand, .sticker-card, .match-beam');
+      animated.forEach(el => { el.style.animation = 'none'; void el.offsetHeight; el.style.animation = ''; });
+      document.querySelectorAll('video').forEach(v => { try { v.currentTime = 0; v.play().catch(() => {}); } catch(e) {} });
+      if (paused) playBtn.click();
+    });
+
+    function overlap(a, b, gap = 8) {
+      return !(a.right + gap < b.left || b.right + gap < a.left || a.bottom + gap < b.top || b.bottom + gap < a.top);
+    }
+
+    function runLayoutAudit() {
+      const activeScenes = [...document.querySelectorAll('.scene')]
+        .filter(scene => parseFloat(getComputedStyle(scene).opacity) > 0.55);
+      const boxes = activeScenes.flatMap(scene => [...scene.querySelectorAll('[data-audit]')])
+        .map(el => ({ el, rect: el.getBoundingClientRect() }))
+        .filter(item => item.rect.width > 20 && item.rect.height > 20);
+
+      const collisions = [];
+      for (let i = 0; i < boxes.length; i++) {
+        for (let j = i + 1; j < boxes.length; j++) {
+          if (overlap(boxes[i].rect, boxes[j].rect)) {
+            collisions.push(`${boxes[i].el.dataset.audit} × ${boxes[j].el.dataset.audit}`);
+          }
+        }
+      }
+
+      if (collisions.length) {
+        auditBadge.className = 'audit-badge warn';
+        auditBadge.textContent = `layout audit: ${collisions[0]}`;
+      } else {
+        auditBadge.className = 'audit-badge pass';
+        auditBadge.textContent = 'layout audit: PASS';
+      }
+    }
+
+    setInterval(runLayoutAudit, 650);
+    window.addEventListener('resize', runLayoutAudit);
+    setTimeout(runLayoutAudit, 400);
+  </script>
+</body>
+</html>

@@ -11,6 +11,17 @@
   <img alt="Hermes Skill" src="https://img.shields.io/badge/Hermes-Skill-f97316?labelColor=4b5563">
 </p>
 
+<p>
+  <a href="https://raw.githack.com/abxxvrv/wechat-meme-skill/main/showcase.html">
+    <img src="docs/media/showcase.gif" width="720" alt="微信表情包.skill 展示动画">
+  </a>
+</p>
+
+<p>
+  <a href="https://raw.githack.com/abxxvrv/wechat-meme-skill/main/showcase.html">查看 HTML 展示动画</a> ·
+  <a href="docs/media/showcase.mp4">下载 MP4</a>
+</p>
+
 **让智能体在微信里用表情包表达轻松、感性、可爱、安慰、接梗和玩梗。**
 
 微信表情包.skill 把表情包变成一个可检索、可维护、可判断语境的情绪表达库。  
