@@ -1,5 +1,10 @@
 # 微信表情包.skill
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-7c3aed?labelColor=4b5563)
+![skills.sh Compatible](https://img.shields.io/badge/skills.sh-Compatible-76b900?labelColor=4b5563)
+![Hermes Skill](https://img.shields.io/badge/Hermes-Skill-f97316?labelColor=4b5563)
+
 > 「别只会回复文字。让智能体也有表情。」
 
 微信表情包.skill 是一个给智能体使用的本地表情包技能：  
