@@ -34,17 +34,19 @@
 用户      ❯ 她说今天好累，想早点睡
 
 Agent     ❯ 可以用这个：
-           stickers/bear_pet_good_boy_01.mp4
            含义：乖喔，摸摸头安慰
 ```
+
+<video src="stickers/bear_pet_good_boy_01.mp4" width="180" autoplay loop muted playsinline controls></video>
 
 ```text
 用户      ❯ 群里有人说“我又把生产环境搞炸了”，发个破防但好笑的
 
 Agent     ❯ 可以用这个：
-           stickers/duck_crying_guitar_01.mp4
            含义：一边哭一边唱，委屈但有节目效果
 ```
+
+<video src="stickers/duck_crying_guitar_01.mp4" width="180" autoplay loop muted playsinline controls></video>
 
 ```text
 用户      ❯ 把这个 GIF 加进表情包库
