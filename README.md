@@ -180,6 +180,16 @@ python scripts/add_sticker.py path/to/input.gif --root . --metadata path/to/meta
 
 ---
 
+## 导入微信表情包
+
+想把微信聊天里的表情包加入这个 skill，可以使用开源项目 WefFlow 导出聊天记录中的表情包。
+
+导出后，把保存表情包的本地路径告诉 agent。agent 会读取该路径下的图片、GIF 或 MP4，并调用本技能完成分析、转换、命名、存储和 `index.yaml` 更新。
+
+如果导出的文件是 GIF，本技能会先把它转换成 1-2 秒 MP4，再作为可发送表情入库。
+
+---
+
 ## 仓库结构
 
 ```text
@@ -225,6 +235,12 @@ wechat-meme-skill/
 - 3 个 JPG 静态表情
 
 全部由 `index.yaml` 统一管理。
+
+---
+
+## 版权说明
+
+本项目中的表情包仅用于技能开发与示例展示。如有任何内容涉嫌侵权，请随时告知，会立即进行删除。
 
 ---
 
