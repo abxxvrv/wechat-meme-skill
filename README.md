@@ -1,19 +1,30 @@
+<div align="center">
+
 # 微信表情包.skill
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-7c3aed?labelColor=4b5563)
-![skills.sh Compatible](https://img.shields.io/badge/skills.sh-Compatible-76b900?labelColor=4b5563)
-![Hermes Skill](https://img.shields.io/badge/Hermes-Skill-f97316?labelColor=4b5563)
+<p><em>「别只会回复文字。让智能体也有表情。」</em></p>
 
-> 「别只会回复文字。让智能体也有表情。」
+<p>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+  <img alt="Claude Code Skill" src="https://img.shields.io/badge/Claude%20Code-Skill-7c3aed?labelColor=4b5563">
+  <img alt="skills.sh Compatible" src="https://img.shields.io/badge/skills.sh-Compatible-76b900?labelColor=4b5563">
+  <img alt="Hermes Skill" src="https://img.shields.io/badge/Hermes-Skill-f97316?labelColor=4b5563">
+</p>
 
-微信表情包.skill 是一个给智能体使用的本地表情包技能：  
-当它想表达轻松、感性、可爱、安慰、接梗、破防、害羞、阴阳怪气时，不必硬写一句话，可以从语义索引里挑一个真正合适的表情包。
+**让智能体在微信里用表情包表达轻松、感性、可爱、安慰、接梗和玩梗。**
 
-不是随机发表情。  
-是把表情包变成一个可检索、可维护、可判断语境的情绪表达库。
+微信表情包.skill 把表情包变成一个可检索、可维护、可判断语境的情绪表达库。  
+不是随机发表情，而是从语义索引里挑一个真正合适的图片或 MP4。
 
-[安装](#安装) · [效果示例](#效果示例) · [它解决什么](#它解决什么) · [工作原理](#工作原理) · [仓库结构](#仓库结构)
+<p>
+  <a href="#效果示例">看效果</a> ·
+  <a href="#安装">安装</a> ·
+  <a href="#它解决什么">它解决什么</a> ·
+  <a href="#工作原理">工作原理</a> ·
+  <a href="#仓库结构">仓库结构</a>
+</p>
+
+</div>
 
 ---
 
