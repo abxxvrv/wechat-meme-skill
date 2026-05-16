@@ -1,0 +1,752 @@
+﻿schema_version: '1.0'
+language: zh-CN
+description: 微信表情包发送 skill 的本地表情包语义索引。表情包文件位于 stickers/ 目录，file 字段为相对路径；可发送文件只能是图片或 mp4。
+selection_policy:
+  default_use: 当 agent 有想表达的轻松、感性、可爱、玩梗、安慰或接话内容时，优先考虑使用本技能选择表情包；用户明确要求发表情包时直接使用。
+  prefer: 优先选择语义、情绪、意图和聊天节奏最贴合的表情包；intensity 用来控制表达强度，不作为默认压低表情表达的理由。
+  avoid:
+  - 不要用表情包替代必要的信息、实际帮助、认真道歉或清晰说明
+  - 对方处在危机、强烈痛苦、正式争执、技术排错等需要直接回应的场景
+  - 关系不熟时使用亲密、暧昧、阴阳怪气、嘲讽类表情包
+  - 同一表情包短时间内反复发送
+  intensity_scale:
+    1: 极轻，几乎不打断对话
+    2: 轻度，可爱/温和
+    3: 中等，有明显情绪或梗
+    4: 较强，可能带嘲讽、玩梗或冒犯感
+    5: 强烈，默认不建议自动使用
+stickers:
+- id: duck_crying_guitar_01
+  filename: duck_crying_guitar_01.mp4
+  type: mp4
+  short_meaning: 一边哭一边唱，委屈但有节目效果
+  emotion:
+  - 委屈
+  - 难过
+  - 搞笑
+  intent:
+  - 卖惨
+  - 自嘲
+  - 表达破防
+  - 活跃气氛
+  tone:
+  - 可怜
+  - 搞笑
+  - 夸张
+  - 不严肃
+  intensity: 3
+  tags:
+  - 哭了
+  - 破防
+  - 委屈
+  - 唱歌
+  - 卖惨
+  - 难受
+  - 哈哈但哭
+  suitable_when:
+  - 自己或对方在轻松语境里表达小小崩溃
+  - 群聊里有人调侃自己，可以用来搞笑接梗
+  - 想表达“我破防了，但还能开玩笑”
+  avoid_when:
+  - 对方真的很难过或正在认真求助
+  - 正式工作沟通、技术排错、严肃讨论
+  - 对方可能把夸张哭泣理解成阴阳怪气
+  visual_description: 绿色小鸭流着眼泪抱着吉他唱歌，表情夸张，像在哭诉或卖惨。
+  text_on_image: ''
+  file: stickers/duck_crying_guitar_01.mp4
+  original_file: ef1eb155f0ed8699de8d100fd0f9e437.gif
+- id: cow_angry_menqi_01
+  filename: cow_angry_menqi_01.jpg
+  type: jpg
+  short_meaning: 牛牛闷气，不高兴但偏可爱
+  emotion:
+  - 生气
+  - 憋屈
+  - 不服
+  intent:
+  - 表达不满
+  - 轻微抗议
+  - 傲娇生闷气
+  tone:
+  - 可爱
+  - 闹脾气
+  - 轻度不满
+  intensity: 2
+  tags:
+  - 牛牛闷气
+  - 生气
+  - 不高兴
+  - 憋屈
+  - 不服
+  - 闹脾气
+  suitable_when:
+  - 熟人之间轻松表达“我有点不开心”
+  - 对方开玩笑欺负你时，用来撒娇式抗议
+  - 群聊里表达轻微不服气
+  avoid_when:
+  - 真实冲突或对方情绪激烈时
+  - 对方需要认真道歉或解决问题时
+  - 正式沟通场景
+  visual_description: 一只皱眉抱臂的小牛，表情严肃，画面文字为“牛牛闷气”。
+  text_on_image: 牛牛闷气
+  file: stickers/cow_angry_menqi_01.jpg
+  original_file: f04e02473ae6f539f499fcb685b9b8a3.jpg
+- id: frog_smug_shy_smile_01
+  filename: frog_smug_shy_smile_01.mp4
+  type: mp4
+  short_meaning: 得意又害羞地笑一下
+  emotion:
+  - 得意
+  - 害羞
+  - 开心
+  intent:
+  - 表达小骄傲
+  - 卖萌
+  - 轻松回应夸奖
+  tone:
+  - 可爱
+  - 俏皮
+  - 轻松
+  intensity: 2
+  tags:
+  - 害羞
+  - 得意
+  - 偷笑
+  - 小骄傲
+  - 嘿嘿
+  - 可爱
+  suitable_when:
+  - 对方夸你或认可你时
+  - 你想用可爱方式表示“嘿嘿，是我”
+  - 轻松聊天里接一个温和的得意表情
+  avoid_when:
+  - 对方在认真请教或表达焦虑时
+  - 容易被理解为炫耀的语境
+  - 正式严肃场景
+  visual_description: 白色小人戴绿色青蛙帽，眯眼微笑，旁边有小爱心/小装饰，整体像害羞偷笑。
+  text_on_image: ''
+  file: stickers/frog_smug_shy_smile_01.mp4
+  original_file: fa59288babd9ecf2cc04d12dfed30a4b.gif
+- id: cow_kneel_down_01
+  filename: cow_kneel_down_01.jpg
+  type: jpg
+  short_meaning: 轻轻跪下，服了/认输/拜托
+  emotion:
+  - 认怂
+  - 服气
+  - 无奈
+  intent:
+  - 表达佩服
+  - 认输
+  - 弱弱请求
+  - 夸张求饶
+  tone:
+  - 搞笑
+  - 夸张
+  - 低姿态
+  intensity: 3
+  tags:
+  - 轻轻跪下
+  - 服了
+  - 认输
+  - 跪了
+  - 求饶
+  - 拜托
+  suitable_when:
+  - 对方说了很强或很离谱的内容，你想表达“我跪了”
+  - 开玩笑请求对方帮忙
+  - 轻松群聊里表达夸张佩服
+  avoid_when:
+  - 正式道歉或真实请求帮助时
+  - 对方可能不喜欢夸张表情时
+  - 严肃讨论、技术排错、学习答疑
+  visual_description: 一只皱眉小牛跪坐在草地上，画面文字为“轻轻跪下”。
+  text_on_image: 轻轻跪下
+  file: stickers/cow_kneel_down_01.jpg
+  original_file: ffa8c914a9c5f23d7baa41866bc68fd1.jpg
+- id: duck_expectant_big_eyes_01
+  filename: duck_expectant_big_eyes_01.mp4
+  type: mp4
+  short_meaning: 睁大眼睛期待/等你继续说
+  emotion:
+  - 期待
+  - 好奇
+  - 认真听
+  intent:
+  - 表示关注
+  - 催更
+  - 期待结果
+  - 接话
+  tone:
+  - 可爱
+  - 温和
+  - 好奇
+  intensity: 1
+  tags:
+  - 期待
+  - 好奇
+  - 等你说
+  - 蹲
+  - 认真听
+  - 大眼睛
+  suitable_when:
+  - 对方说有后续，你想表示期待
+  - 想鼓励对方继续讲
+  - 轻松表达“然后呢？”
+  avoid_when:
+  - 对方在表达沉重内容时
+  - 需要你给出明确答案而不是卖萌时
+  - 对方已经表示不想继续说
+  visual_description: 绿色小鸭睁着很大的眼睛，轻微晃动，显得期待又好奇。
+  text_on_image: ''
+  file: stickers/duck_expectant_big_eyes_01.mp4
+  original_file: 00f5febba06ef1d5240725a0ebe1cfbf.gif
+- id: duck_got_it_thumb_01
+  filename: duck_got_it_thumb_01.mp4
+  type: mp4
+  short_meaning: 懂了/收到/可以
+  emotion:
+  - 认可
+  - 明白
+  - 配合
+  intent:
+  - 表示收到
+  - 表示赞同
+  - 表示可以执行
+  tone:
+  - 轻松
+  - 肯定
+  - 有点搞笑
+  intensity: 2
+  tags:
+  - 收到
+  - 懂了
+  - 可以
+  - 安排
+  - OK
+  - 赞同
+  - 就是这样
+  suitable_when:
+  - 对方交代事项，你想轻松表示收到
+  - 你同意对方观点
+  - 群聊中快速给出正反馈
+  avoid_when:
+  - 需要详细确认关键事项时
+  - 对方要求严谨答复时
+  - 正式工作场景中可能显得不够认真时
+  visual_description: 绿色小鸭伸出手势并逐渐露出夸张笑脸，像在表示确认或赞同。
+  text_on_image: ''
+  file: stickers/duck_got_it_thumb_01.mp4
+  original_file: 0d1c95bdd22a4e03b191e509c48b608b.gif
+- id: yellow_ducks_hug_love_01
+  filename: yellow_ducks_hug_love_01.mp4
+  type: mp4
+  short_meaning: 贴贴抱抱，喜欢你
+  emotion:
+  - 喜欢
+  - 亲近
+  - 开心
+  intent:
+  - 表达亲密
+  - 安慰
+  - 示好
+  - 撒娇
+  tone:
+  - 甜
+  - 可爱
+  - 温柔
+  intensity: 3
+  tags:
+  - 抱抱
+  - 贴贴
+  - 喜欢
+  - 亲亲
+  - 爱心
+  - 安慰
+  - 撒娇
+  suitable_when:
+  - 关系比较熟的人之间表达亲近
+  - 对方轻微低落时，用来温柔安慰
+  - 轻松聊天中表达“抱抱你/喜欢你”
+  avoid_when:
+  - 和对方关系不熟时
+  - 正式工作或陌生群聊场景
+  - 对方正在严肃求助，需要实际方案时
+  visual_description: 两个黄色小动物靠在一起拥抱/贴贴，周围出现爱心和闪光。
+  text_on_image: ''
+  file: stickers/yellow_ducks_hug_love_01.mp4
+  original_file: 2d44e74cd6f704da614f0a357f763e48.gif
+- id: duck_teary_pleased_01
+  filename: duck_teary_pleased_01.mp4
+  type: mp4
+  short_meaning: 感动到流泪/太好了
+  emotion:
+  - 感动
+  - 欣慰
+  - 开心
+  intent:
+  - 表达被打动
+  - 表达满足
+  - 回应好消息
+  tone:
+  - 可爱
+  - 温和
+  - 有点夸张
+  intensity: 2
+  tags:
+  - 感动
+  - 流泪
+  - 太好了
+  - 欣慰
+  - 好耶
+  - 泪目
+  suitable_when:
+  - 对方给出好消息或帮了你
+  - 想表达“我感动了”
+  - 轻松表达被暖到
+  avoid_when:
+  - 对方真的在哭或很难过时
+  - 需要严肃感谢的场合
+  - 可能被理解成夸张敷衍的场景
+  visual_description: 绿色小鸭侧头睁大眼睛，眼角流泪，整体像感动或泪目。
+  text_on_image: ''
+  file: stickers/duck_teary_pleased_01.mp4
+  original_file: 2ff37f6c2d5084032aa1689f643c6abd.gif
+- id: bear_pet_good_boy_01
+  filename: bear_pet_good_boy_01.mp4
+  type: mp4
+  short_meaning: 乖喔，摸摸头安慰
+  emotion:
+  - 安慰
+  - 温柔
+  - 宠溺
+  intent:
+  - 安抚对方
+  - 表达关心
+  - 温柔回应
+  tone:
+  - 软萌
+  - 温柔
+  - 亲近
+  intensity: 2
+  tags:
+  - 乖喔
+  - 摸摸头
+  - 安慰
+  - 别难过
+  - 抱抱
+  - 温柔
+  suitable_when:
+  - 熟人表达疲惫、委屈或小难过时
+  - 想轻轻安慰对方
+  - 关系亲近时用来表达宠溺
+  avoid_when:
+  - 对方在严肃倾诉，需要具体回应时
+  - 和对方不熟，可能显得越界或居高临下
+  - 对方明显不喜欢被哄小孩式安慰时
+  visual_description: 小熊站在趴着的小动物旁边，像在陪伴和安慰，画面文字为“乖喔”。
+  text_on_image: 乖喔
+  file: stickers/bear_pet_good_boy_01.mp4
+  original_file: 3f753ef88660aef986d987f4249399f1.gif
+- id: sheep_crying_pillow_01
+  filename: sheep_crying_pillow_01.mp4
+  type: mp4
+  short_meaning: 委屈流泪，抱着枕头难过
+  emotion:
+  - 委屈
+  - 难过
+  - 脆弱
+  intent:
+  - 表达伤心
+  - 撒娇式难过
+  - 求安慰
+  tone:
+  - 可怜
+  - 软萌
+  - 轻度悲伤
+  intensity: 3
+  tags:
+  - 哭哭
+  - 委屈
+  - 难过
+  - 求安慰
+  - 可怜
+  - 抱枕
+  suitable_when:
+  - 自己在轻松语境里表达小委屈
+  - 对方讲了让人心疼的事，可以轻轻共情
+  - 熟人之间撒娇式表达难过
+  avoid_when:
+  - 对方正在经历真实严重问题
+  - 需要给出实际帮助或严肃回应时
+  - 可能让对方觉得你在卖惨抢话题时
+  visual_description: 羊形角色抱着枕头，眼睛很大并流泪，整体显得委屈可怜。
+  text_on_image: ''
+  file: stickers/sheep_crying_pillow_01.mp4
+  original_file: 3fe20a60eb803063881c5559c6bbd5af.gif
+- id: bunny_cat_shy_love_01
+  filename: bunny_cat_shy_love_01.mp4
+  type: mp4
+  short_meaning: 害羞贴贴，互相喜欢
+  emotion:
+  - 害羞
+  - 喜欢
+  - 甜蜜
+  intent:
+  - 表达喜欢
+  - 表达亲近
+  - 甜甜回应
+  tone:
+  - 甜
+  - 可爱
+  - 暧昧
+  intensity: 3
+  tags:
+  - 害羞
+  - 贴贴
+  - 喜欢
+  - 甜
+  - 恋爱
+  - 小心心
+  suitable_when:
+  - 关系亲密或暧昧语境下表达喜欢
+  - 对方说了让你害羞的话
+  - 轻松表达“贴贴”
+  avoid_when:
+  - 普通朋友或陌生人场景，可能显得过于亲密
+  - 正式群聊或工作沟通
+  - 对方正在严肃求助
+  visual_description: 白色兔子和灰色小猫站在一起，互相靠近，出现小爱心，氛围害羞甜蜜。
+  text_on_image: ''
+  file: stickers/bunny_cat_shy_love_01.mp4
+  original_file: 8cdfd2a10102732fae72e62b5e51b95d.gif
+- id: yellow_duck_shy_cover_face_01
+  filename: yellow_duck_shy_cover_face_01.mp4
+  type: mp4
+  short_meaning: 害羞捂脸，嘿嘿不好意思
+  emotion:
+  - 害羞
+  - 不好意思
+  - 开心
+  intent:
+  - 回应夸奖
+  - 表达害羞
+  - 卖萌
+  tone:
+  - 可爱
+  - 甜
+  - 轻松
+  intensity: 2
+  tags:
+  - 害羞
+  - 捂脸
+  - 不好意思
+  - 嘿嘿
+  - 脸红
+  - 可爱
+  suitable_when:
+  - 对方夸你或说了让你不好意思的话
+  - 想表达轻松的害羞
+  - 熟人之间卖萌回应
+  avoid_when:
+  - 严肃议题或正式沟通
+  - 对方在认真求助时
+  - 不适合卖萌的陌生场合
+  visual_description: 黄色小鸭/小动物转身捂脸，随后露出笑脸和脸红表情，像害羞不好意思。
+  text_on_image: ''
+  file: stickers/yellow_duck_shy_cover_face_01.mp4
+  original_file: 9c4521a877d67ab90c19f0108c294425.gif
+- id: pig_dont_know_01
+  filename: pig_dont_know_01.mp4
+  type: mp4
+  short_meaning: 小猪不知道，不清楚/装傻
+  emotion:
+  - 迷茫
+  - 无辜
+  - 装傻
+  intent:
+  - 表达不知道
+  - 回避尴尬
+  - 可爱装傻
+  tone:
+  - 无辜
+  - 可爱
+  - 轻松
+  intensity: 2
+  tags:
+  - 小猪不知道
+  - 不知道
+  - 不清楚
+  - 装傻
+  - 无辜
+  - 迷茫
+  suitable_when:
+  - 你确实不知道答案，想可爱地回应
+  - 熟人开玩笑追问时，想轻松糊弄过去
+  - 群聊里表达“别问我，我也不知道”
+  avoid_when:
+  - 用户正在要求准确答案或技术解释
+  - 对方需要你承担责任或明确表态
+  - 严肃问题中可能显得逃避
+  visual_description: 小猪站着露出无辜表情，画面文字为“小猪不知道”。
+  text_on_image: 小猪不知道
+  file: stickers/pig_dont_know_01.mp4
+  original_file: 238ecde3651ed4f163909154cb172423.gif
+- id: pig_hahaha_01
+  filename: pig_hahaha_01.mp4
+  type: mp4
+  short_meaning: 哈哈哈，笑了
+  emotion:
+  - 开心
+  - 好笑
+  - 轻松
+  intent:
+  - 表达被逗笑
+  - 接梗
+  - 活跃气氛
+  tone:
+  - 可爱
+  - 轻松
+  - 无攻击性
+  intensity: 2
+  tags:
+  - 哈哈哈
+  - 笑了
+  - 可爱
+  - 好笑
+  - 接梗
+  - 气氛组
+  suitable_when:
+  - 对方说了好笑的话
+  - 群聊里轻松接梗
+  - 想用可爱方式表示“笑死”
+  avoid_when:
+  - 对方在认真求助
+  - 对方表达负面情绪
+  - 严肃讨论或技术排错场景
+  visual_description: 粉色小猪露出开心表情，上方有“哈哈哈”文字，整体是可爱搞笑风格。
+  text_on_image: 哈哈哈
+  file: stickers/pig_hahaha_01.mp4
+  original_file: 309cecc61b4743a85e443ea5656916f8.gif
+- id: pepe_smoking_smug_01
+  filename: pepe_smoking_smug_01.mp4
+  type: mp4
+  short_meaning: 抽烟看戏，懂的都懂
+  emotion:
+  - 淡定
+  - 看戏
+  - 阴阳怪气
+  intent:
+  - 表达看透
+  - 调侃
+  - 吃瓜
+  - 装深沉
+  tone:
+  - 玩梗
+  - 略嘲讽
+  - 社会感
+  intensity: 4
+  tags:
+  - 抽烟
+  - 看戏
+  - 懂了
+  - 绷不住
+  - 阴阳怪气
+  - 吃瓜
+  - 老练
+  suitable_when:
+  - 熟人玩梗或群聊吃瓜时
+  - 想表达“我看懂了但不多说”
+  - 轻松调侃某个离谱场面
+  avoid_when:
+  - 对方不熟或容易被冒犯时
+  - 严肃讨论、求助、道歉、冲突场景
+  - 不适合烟草意象或嘲讽语气的场合
+  visual_description: Pepe 表情包角色抽烟，眼神淡定又有点嘲讽，后半段有烟雾效果。
+  text_on_image: ''
+  file: stickers/pepe_smoking_smug_01.mp4
+  original_file: 465a3f20d2161086668bbfd10d79e3c0.gif
+- id: tiny_bear_mmm_01
+  filename: tiny_bear_mmm_01.mp4
+  type: mp4
+  short_meaning: 嗯……小声回应/乖巧路过
+  emotion:
+  - 乖巧
+  - 犹豫
+  - 弱弱回应
+  intent:
+  - 表示收到但不展开
+  - 轻轻回应
+  - 缓和气氛
+  tone:
+  - 软萌
+  - 小声
+  - 低存在感
+  intensity: 1
+  tags:
+  - 嗯
+  - 小声
+  - 乖巧
+  - 弱弱的
+  - 收到
+  - 路过
+  suitable_when:
+  - 想用很轻的方式表示“嗯/收到”
+  - 对方语气轻松，你不想打断话题
+  - 熟人聊天中卖萌式回应
+  avoid_when:
+  - 需要明确承诺或详细回答时
+  - 对方正在认真提问
+  - 正式工作场景
+  visual_description: 小熊样的白色角色小幅站立晃动，旁边有很小的“嗯”字，显得乖巧。
+  text_on_image: 嗯
+  file: stickers/tiny_bear_mmm_01.mp4
+  original_file: 9061e024bfb2b2075dd9fc285865e2c1.gif
+- id: dog_grandpa_leaving_01
+  filename: dog_grandpa_leaving_01.jpg
+  type: jpg
+  short_meaning: 爷走了，潇洒退场
+  emotion:
+  - 潇洒
+  - 摆烂
+  - 不伺候
+  intent:
+  - 表示撤退
+  - 结束话题
+  - 开玩笑离场
+  tone:
+  - 玩梗
+  - 搞笑
+  - 轻微傲娇
+  intensity: 3
+  tags:
+  - 爷走了
+  - 撤了
+  - 退场
+  - 溜了
+  - 不玩了
+  - 下线
+  suitable_when:
+  - 轻松群聊里表示先走/下线
+  - 玩笑式退出一个离谱话题
+  - 表达“我不掺和了”
+  avoid_when:
+  - 对方仍在认真等待回复
+  - 正式沟通中不适合突然退场
+  - 冲突场景，可能显得不负责任
+  visual_description: 卡通小狗/小动物被鸟带走，底部文字为“爷走了”，整体是搞笑退场梗。
+  text_on_image: 爷走了
+  file: stickers/dog_grandpa_leaving_01.jpg
+  original_file: 856195c81f3c6b5cb7579f1607cbf2a5.jpg
+- id: duck_tsundere_love_01
+  filename: duck_tsundere_love_01.mp4
+  type: mp4
+  short_meaning: 傲娇但喜欢你
+  emotion:
+  - 傲娇
+  - 害羞
+  - 喜欢
+  intent:
+  - 表达喜欢但装作淡定
+  - 卖萌
+  - 轻松示好
+  tone:
+  - 可爱
+  - 傲娇
+  - 甜
+  intensity: 3
+  tags:
+  - 傲娇
+  - 喜欢
+  - 害羞
+  - 爱心
+  - 装淡定
+  - 嘴硬
+  suitable_when:
+  - 熟人或亲密关系中表达嘴硬式喜欢
+  - 对方夸你或调侃你害羞时
+  - 轻松氛围下撒娇回应
+  avoid_when:
+  - 陌生人或正式场合
+  - 对方正在严肃求助
+  - 关系边界不清晰时
+  visual_description: 绿色小鸭抱臂转身，出现害羞和爱心元素，像傲娇又开心。
+  text_on_image: ''
+  file: stickers/duck_tsundere_love_01.mp4
+  original_file: a5914e1f560618ae467845b7f2271493.gif
+- id: bear_back_hug_01
+  filename: bear_back_hug_01.mp4
+  type: mp4
+  short_meaning: 抱抱你/贴贴/安慰一下
+  emotion:
+  - 亲近
+  - 安慰
+  - 撒娇
+  intent:
+  - 表达关心
+  - 安慰
+  - 示好
+  - 亲密互动
+  tone:
+  - 可爱
+  - 温柔
+  - 软萌
+  intensity: 2
+  tags:
+  - 抱抱
+  - 贴贴
+  - 安慰
+  - 可爱
+  - 撒娇
+  - 关心
+  - 亲近
+  suitable_when:
+  - 对方表达疲惫、委屈或轻微不开心
+  - 想用可爱方式表示“抱抱你”
+  - 熟人之间轻松撒娇或表达亲近
+  avoid_when:
+  - 对方正在严肃求助，需要实际解决方案
+  - 和对方关系不熟，容易显得过于亲密
+  - 正在讨论正式工作、技术排错或严肃问题
+  visual_description: 一只小熊从背后抱住另一只圆滚滚的小动物，动作轻微晃动，整体是软萌亲近的风格。
+  text_on_image: ''
+  file: stickers/bear_back_hug_01.mp4
+  original_file: b1c0898c4c1f88326a0b540e960de60f.gif
+- id: duck_shocked_sweat_01
+  filename: duck_shocked_sweat_01.mp4
+  type: mp4
+  short_meaning: 震惊冒汗，啊这
+  emotion:
+  - 震惊
+  - 尴尬
+  - 慌张
+  intent:
+  - 表达意外
+  - 表达无语
+  - 缓和尴尬
+  tone:
+  - 搞笑
+  - 夸张
+  - 轻度尴尬
+  intensity: 3
+  tags:
+  - 震惊
+  - 啊这
+  - 冒汗
+  - 尴尬
+  - 慌了
+  - 绷不住
+  - 没想到
+  suitable_when:
+  - 对方说了出乎意料或离谱的内容
+  - 想轻松表达“啊这/我没想到”
+  - 群聊里用来接尴尬或反转场面
+  avoid_when:
+  - 对方在认真表达困难或负面情绪
+  - 严肃技术排错中需要直接回答
+  - 可能被理解成嘲笑对方时
+  visual_description: 绿色小鸭从普通表情变成冒汗、张嘴震惊的表情，动作夸张。
+  text_on_image: ''
+  file: stickers/duck_shocked_sweat_01.mp4
+  original_file: cffc3d5dc1c3434d5f1f7dedb051caab.gif
+

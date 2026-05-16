@@ -1,0 +1,29 @@
+id: example_hahaha_01
+file: stickers/example_hahaha_01.mp4
+type: mp4
+short_meaning: 哈哈哈，笑了
+emotion:
+  - 开心
+  - 好笑
+intent:
+  - 表达被逗笑
+  - 活跃轻松气氛
+tone:
+  - 可爱
+  - 轻松
+  - 无攻击性
+intensity: 2
+tags:
+  - 哈哈哈
+  - 笑了
+  - 可爱
+suitable_when:
+  - 对方说了好笑的话
+  - 群聊里轻松接梗
+avoid_when:
+  - 对方在认真求助
+  - 严肃讨论或技术排错场景
+visual_description: 角色露出开心表情，整体是可爱搞笑风格。
+text_on_image: ""
+created_at: "2026-05-16"
+source: user_upload
